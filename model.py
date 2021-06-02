@@ -140,7 +140,7 @@ def model_loader_gpt(path, device, fp16):
 
 
 def model_predictions_gpt(model, tokenizer, device, max_len, prompts, temperature=0.9, k=50, p=0.95,
-                          repetition_penalty=1.0, num_return_sequences=3):
+                          repetition_penalty=1.0, num_return_sequences=3, num_beams=1, early_stopping=True):
     length = adjust_length_to_model(max_len, max_sequence_length=model.config.max_position_embeddings)
     generated_sequences = []
 
@@ -157,6 +157,8 @@ def model_predictions_gpt(model, tokenizer, device, max_len, prompts, temperatur
             repetition_penalty=repetition_penalty,
             do_sample=True,
             num_return_sequences=num_return_sequences,
+            num_beams=num_beams,
+            early_stopping=early_stopping
         )
 
         # Remove the batch dimension when returning multiple sequences
